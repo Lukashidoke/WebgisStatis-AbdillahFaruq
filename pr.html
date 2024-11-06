@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Belajar WEBGIS</title>
+    <!-- LEAFLET CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <!-- LEAFLET JAVASCRIPT -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // Inisialisasi peta dan set lokasi tampilan awal
+        var map = L.map('map').setView([-5.367016, 105.317890], 15);
+
+        // Basemap OpenStreetMap dan ESRI World Imagery
+        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        // Marker Gedung dan Embung dengan Popup
+        var GKU1 = L.marker([-5.360932, 105.310530]).bindPopup("Gedung GKU 1");
+        var GedungE = L.marker([-5.3600342, 105.3152115]).bindPopup("Gedung E");
+        var EMBUNGA = L.marker([-5.3580216, 105.3126642]).bindPopup("EMBUNG A");
+
+        // Objek Bundaran
+        L.circle([-5.363156, 105.312634], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 20
+        }).addTo(map).bindPopup("Bundaran dekat Gedung GKU");
+
+        L.circle([-5.360813, 105.314847], {
+            color: 'green',
+            fillColor: '#ffffff',
+            fillOpacity: 0.5,
+            radius: 35
+        }).addTo(map).bindPopup("Bundaran dekat Gedung E");
+
+        // Polygon Bangunan F
+        L.polygon([
+            [-5.359799, 105.315831],
+            [-5.359957, 105.315831],
+            [-5.359957, 105.315571],
+            [-5.360474, 105.315571],
+            [-5.360474, 105.315401],
+            [-5.359635, 105.315401],
+            [-5.359635, 105.315571],
+            [-5.359799, 105.315571]
+        ]).addTo(map).bindPopup("Gedung F");
+
+        // Data bangunan tambahan
+        var Labtek_3 = L.polygon([
+            [-5.360186286723233, 105.30882685609171],
+            [-5.360415947962806, 105.30882685609171],
+            [-5.360415947962806, 105.3094544930012],
+            [-5.360186286723233, 105.3094544930012]
+            ], { color: "#d63000" }).addTo(map).bindPopup("Labtek 3");
+
+        var Galeri_2 = L.polygon([
+            [-5.360661631983928, 105.30859886832545],
+            [-5.360768451092707, 105.30859886832545],
+            [-5.360768451092707, 105.30890195794413],
+            [-5.360661631983928, 105.30890195794413]
+        ], { color: "#98ff00" }).addTo(map).bindPopup("Galeri 2");
+
+        var Labtek_1 = L.polygon([
+            [-5.360212991522969, 105.30990778632471],
+            [-5.360485380413583, 105.30990778632471],
+            [-5.360485380413583, 105.310500554517],
+            [-5.360212991522969, 105.310500554517]
+        ], { color: "#0b4a8b" }).addTo(map).bindPopup("Labtek 1");
+
+        var Labtek_2 = L.polygon([
+            [-5.361418289375064, 105.30995173866305],
+            [-5.361674654887036, 105.30995173866305],
+            [-5.361674654887036, 105.31098975355181],
+            [-5.361418289375064, 105.31098975355181]
+        ], { color: "#ffc82d" }).addTo(map).bindPopup("Labtek 2");
+
+        var GKU_1 = L.polygon([
+            [-5.360804079898049, 105.3099973362163],
+            [-5.361081809477231, 105.3099973362163],
+            [-5.361081809477231, 105.31101389343294],
+            [-5.360804079898049, 105.31101389343294]
+        ], { color: "#00ffff" }).addTo(map).bindPopup("GKU 1");
+
+        var Labtek_5 = L.polygon([
+            [-5.361955937097581, 105.30997417181271],
+            [-5.362198950027777, 105.30997417181271],
+            [-5.362198950027777, 105.31100145786542],
+            [-5.361955937097581, 105.31100145786542]
+        ], { color: "#bf04c2" }).addTo(map).bindPopup("Labtek 5");
+
+        var Rumah_Kayu = L.polygon([
+            [-5.359301121729376, 105.31244247478165],
+            [-5.35960555681841, 105.31244247478165],
+            [-5.35960555681841, 105.31282871287979],
+            [-5.359301121729376, 105.31282871287979]
+        ], { color: "#ff0000" }).addTo(map).bindPopup("Rumah Kayu");
+
+        var Masjid_Baitul_Ilmi = L.polygon([
+            [-5.359128977246757, 105.31248511582506],
+            [-5.359213097507616, 105.31266884714258],
+            [-5.359014146395796, 105.31276138335359],
+            [-5.358930026107536, 105.31256289988649]
+        ], { color: "#00ff00" }).addTo(map).bindPopup("Masjid Baitul Ilmi");
+
+        var Gedung_D = L.polygon([
+            [-5.358477136678707, 105.3134385220119],
+            [-5.359087342768849, 105.31343181648936],
+            [-5.358896403073142, 105.31361420670237],
+            [-5.358486483384902, 105.31361152449335]
+        ], { color: "#0000ff" }).addTo(map).bindPopup("Gedung D");
+
+        var Gedung_C = L.polygon([
+            [-5.358470879529082, 105.31332855144228],
+            [-5.358473550016606, 105.31398703375544],
+            [-5.358311985500223, 105.31415467181887],
+            [-5.358325337941228, 105.31332989254679]
+        ], { color: "#999900" }).addTo(map).bindPopup("Gedung C");
+
+        var Gedung_A = L.polygon([
+            [-5.357732557538499, 105.31431433181322],
+            [-5.358085062217141, 105.31431433181322],
+            [-5.358085062217141, 105.3145074508623],
+            [-5.357732557538499, 105.3145074508623]
+        ], { color: "#009999" }).addTo(map).bindPopup("Gedung A");
+
+        var Gedung_B = L.polygon([
+            [-5.357719205084556, 105.31523164729632],
+            [-5.358082391727912, 105.31523164729632],
+            [-5.358082391727912, 105.31542208413637],
+            [-5.357719205084556, 105.31542208413637]
+        ], { color: "#ff00ff" }).addTo(map).bindPopup("Gedung B");
+
+        var Galery_1 = L.polygon([
+            [-5.357814246696917, 105.31551729255935],
+            [-5.357978481834638, 105.31551729255935],
+            [-5.357978481834638, 105.31562994533797],
+            [-5.357814246696917, 105.31562994533797]
+        ], { color: "#ff9999" }).addTo(map).bindPopup("Galery 1");
+
+        var Poliklinik = L.polygon([
+            [-5.357660693479461, 105.31591560059806],
+            [-5.357798223754304, 105.31591560059806],
+            [-5.357798223754304, 105.31600009018203],
+            [-5.357660693479461, 105.31600009018203]
+        ], { color: "#99ff99" }).addTo(map).bindPopup("Poliklinik");
+        
+        var Asrama = L.polygon([
+            [-5.358321060364612, 105.31713152877732],
+            [-5.358556063279922, 105.31713152877732],
+            [-5.358556063279922, 105.31771893255159],
+            [-5.358321060364612, 105.31771893255159]
+        ], { color: "#99ffff" }).addTo(map).bindPopup("Asrama");
+
+        var GSG = L.polygon([
+            [-5.362222293028896, 105.31883241168721],
+            [-5.362665591074957, 105.31883241168721],
+            [-5.362665591074957, 105.31906308166249],
+            [-5.362222293028896, 105.31906308166249]
+        ], { color: "#ff99ff" }).addTo(map).bindPopup("GSG");
+
+        var Rima = L.polygon([
+            [-5.358524513207269, 105.32076318336163],
+            [-5.358563235271853, 105.32085035515462],
+            [-5.3584817854090065, 105.32089729381238],
+            [-5.358444398583069, 105.32081146312319]
+        ], { color: "#cc6666" }).addTo(map).bindPopup("Rima");
+
+        var Kebun_Raya = L.polygon([
+            [-5.359258272568647, 105.31701927347307],
+            [-5.359691516067961, 105.31701927347307],
+            [-5.359691516067961, 105.31773735015863],
+            [-5.359258272568647, 105.31773735015863]
+        ], { color: "#66cc66" }).addTo(map).bindPopup("Kebun Raya");
+
+
+        // Base maps dan Overlay maps
+        var baseMaps = {
+            "OSM": osm,
+            "ESRI": Esri_WorldImagery
+        };
+
+        var overlayMaps = {
+            "Gedung GKU 1": GKU1,
+            "Gedung E": GedungE,
+            "EMBUNG A": EMBUNGA,
+            "Labtek 3": Labtek_3,
+            "Galeri 2": Galeri_2,
+            "Labtek 1": Labtek_1,
+            "Labtek 2": Labtek_2
+        };
+
+        // Menambahkan kontrol layers
+        L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+    </script>
+</body>
+</html>
